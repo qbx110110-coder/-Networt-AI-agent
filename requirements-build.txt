@@ -1,0 +1,7 @@
+# Build and Packaging Dependencies
+pyinstaller==6.1.0
+wheel==0.42.0
+twine==4.0.2
+
+# For creating Windows installer
+# Note: NSIS should be installed separately from https://nsis.sourceforge.io
