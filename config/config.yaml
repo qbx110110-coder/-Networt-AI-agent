@@ -1,0 +1,101 @@
+# Network AI Agent Configuration
+
+# LLM Configuration
+llm:
+  # Provider: openai, claude, ollama, or custom
+  provider: openai
+  
+  # OpenAI Configuration
+  openai:
+    api_key: ${OPENAI_API_KEY}
+    model: gpt-4
+    temperature: 0.3
+    max_tokens: 2000
+  
+  # Claude Configuration (Optional)
+  claude:
+    api_key: ${ANTHROPIC_API_KEY}
+    model: claude-3-opus-20240229
+    temperature: 0.3
+  
+  # Ollama Configuration for local LLM
+  ollama:
+    base_url: http://localhost:11434
+    model: llama2
+
+# Network Devices Configuration
+devices:
+  switch1:
+    name: "Core Switch 1"
+    host: 192.168.1.1
+    port: 22
+    username: admin
+    password: ${SWITCH1_PASSWORD}
+    protocol: ssh  # ssh or telnet
+    device_type: cisco_ios  # cisco_ios, cisco_nxos, arista_eos, etc.
+    timeout: 30
+    secret: ""  # Enable secret for privileged mode
+    enabled: true
+
+  switch2:
+    name: "Core Switch 2"
+    host: 192.168.1.2
+    port: 23
+    username: admin
+    password: ${SWITCH2_PASSWORD}
+    protocol: telnet
+    device_type: cisco_ios
+    timeout: 30
+    enabled: true
+
+  router1:
+    name: "Edge Router 1"
+    host: 192.168.2.1
+    port: 22
+    username: netadmin
+    password: ${ROUTER1_PASSWORD}
+    protocol: ssh
+    device_type: cisco_ios
+    timeout: 30
+    enabled: false  # Disabled for now
+
+# Agent Configuration
+agent:
+  # Agent behavior
+  max_retries: 3
+  retry_delay: 2
+  timeout: 60
+  
+  # Safety settings
+  dry_run: true  # Set to false to execute commands
+  allow_config_changes: true
+  allow_reboot: false
+  
+  # Command validation
+  validate_commands: true
+  forbidden_keywords:
+    - "erase"
+    - "delete"
+    - "reload"
+    - "shutdown"
+
+# Logging Configuration
+logging:
+  level: INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/network_agent.log"
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+
+# Cache Configuration (optional)
+cache:
+  enabled: true
+  ttl: 300  # seconds
+  max_size: 100
+
+# API Server Configuration (optional)
+api:
+  enabled: false
+  host: 0.0.0.0
+  port: 8000
+  debug: false
